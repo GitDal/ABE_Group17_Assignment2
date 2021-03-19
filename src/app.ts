@@ -8,12 +8,11 @@ import { graphqlHTTP } from "express-graphql";
 import { rootSchema } from "./schema";
 import mongoApi from "./database/mongoApi"
 
-
 const app = express();
 app.use(express.json());
 app.use('/graphql', graphqlHTTP({
     schema: rootSchema,
-    context: mongoApi,
+    context: { mongoApi },
     graphiql: true,
 }));
 

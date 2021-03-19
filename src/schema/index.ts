@@ -8,30 +8,27 @@ import {
   } from 'graphql';
 
   import {HotelType} from './types/hotel'
+  import dbHotel from "../database/models/hotel";
 
-
-  const RootQueryType = new GraphQLObjectType({
+  const QueryType = new GraphQLObjectType({
     name: "Query",
     fields: {
         Hotels: {
             type:  new GraphQLList(new GraphQLNonNull(HotelType)) ,
             resolve: async (source, args, { mongoApi }) => {
-                return await mongoApi.getHotels();
+                return await dbHotel.find(); //kan ikke bruge api? --> kald direkte
             },
         }
-        // HotelName: {
-        //     type: GraphQLString,
-        //     resolve: () => {
-        //         //return Hotel['QL Hotel'].hotelName;
-        //     }
-        // },
-        // Rooms: {
-        //     type: GraphQLList(RoomType),
-        //     resolve: () => {
-        //         //return Hotel["QL Hotel"].rooms;
-        //     }
-        // },
-        // AvailableRooms: {
+    },
+});
+
+export const rootSchema = new GraphQLSchema({
+    query: QueryType,
+    //TODO add mutaionType
+});
+
+///MUTATIONS:
+// AvailableRooms: {
         //     type: GraphQLList(RoomType),
         //     resolve: () => {
         //         //return Hotel["QL Hotel"].rooms.filter(x => x.isAvailable);
@@ -77,9 +74,3 @@ import {
         //         return `Room ${roomNumber} now available for booking`;*/
         //     }
         // }
-    },
-});
-
-export const rootSchema = new GraphQLSchema({
-    query: RootQueryType,
-});
