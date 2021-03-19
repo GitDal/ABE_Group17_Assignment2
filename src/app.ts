@@ -1,19 +1,21 @@
 import dotenv from "dotenv";
 dotenv.config(); //Has to be called before any other imports
 
-import connect from "./models/db";
+import connect from "./database/db";
 import express from "express";
 import http from "http";
-// import { graphqlHTTP } from "express-graphql";
-// import { HotelScema } from "./hotelSchema";
+import { graphqlHTTP } from "express-graphql";
+import { rootSchema } from "./schema";
+import mongoApi from "./database/mongoApi"
 
 
 const app = express();
 app.use(express.json());
-// app.use('/graphql', graphqlHTTP({
-//     schema: HotelScema,
-//     graphiql: true,
-// }));
+app.use('/graphql', graphqlHTTP({
+    schema: rootSchema,
+    context: mongoApi,
+    graphiql: true,
+}));
 
 const port = 3000;
 const server = http.createServer(app);

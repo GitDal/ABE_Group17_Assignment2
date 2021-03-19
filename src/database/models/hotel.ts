@@ -4,9 +4,12 @@ const Schema = mongoose.Schema;
 const hotelModelName = "Hotel";
 
 export interface IRoom{
-    roomNumber: Number
+    number: number;
+    size: number;
     available: boolean;
-    reservedByUserId: String; //user.Email
+    beds: number;
+    balcony: boolean;
+    reservedByUserId: string; //user.Email
 }
 
 export interface IHotel {
@@ -17,14 +20,17 @@ export interface IHotel {
 }
 
 const roomSchema = new Schema({
-    roomNumber: {
+    number: {
         type: Number,
         required: true
     },
+    size: Number,
     available: {
         type: Boolean,
         'default': true,
     },
+    beds: Number,
+    balcony: Boolean,
     reservedByUserId: String //user.Email
 });
 

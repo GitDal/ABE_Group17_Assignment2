@@ -1,20 +1,41 @@
-import { GraphQLBoolean, GraphQLInt, GraphQLList, GraphQLObjectType, GraphQLSchema, GraphQLString } from "graphql";
+import { GraphQLBoolean, GraphQLInt, GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLSchema, GraphQLString } from "graphql";
 
 export const RoomType = new GraphQLObjectType({
     name: 'Room',
     fields: {
-        roomNumber: { type: GraphQLInt },
-        size: { type: GraphQLInt },
-        isAvailable: { type: GraphQLBoolean },
-        beds: {type: GraphQLInt},
-        balcony: {type: GraphQLBoolean}
+        number: { 
+            type: GraphQLInt,
+            resolve: (currentRoom, args) => currentRoom.number
+        },
+        size: { 
+            type: GraphQLInt,
+            resolve: (currentRoom, args) => currentRoom.size
+        },
+        available: { 
+            type: GraphQLBoolean,
+            resolve: (currentRoom, args) => currentRoom.available
+        },
+        beds: {
+            type: GraphQLInt,
+            resolve: (currentRoom, args) => currentRoom.beds
+        },
+        balcony: {
+            type: GraphQLBoolean,
+            resolve: (currentRoom, args) => currentRoom.balcony
+        }
     }
 });
 
 export const HotelType = new GraphQLObjectType({
     name: 'Hotel',
     fields: {
-        hotelName: { type: GraphQLString },
-        rooms: { type: GraphQLList(RoomType) }
+        name: { 
+            type: new GraphQLNonNull(GraphQLString),
+            resolve: (currentHotel, args) => currentHotel.name
+        },
+        rooms: { 
+            type: new GraphQLList(RoomType),
+            resolve: (currentHotel, args) => currentHotel.rooms
+        }
     }
 });
