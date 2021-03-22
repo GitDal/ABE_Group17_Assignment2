@@ -13,13 +13,28 @@ const QueryType = new GraphQLObjectType({
                 return await dbHotel.find(); //kan ikke bruge api? --> kald direkte
             },
         },
+        Hotel: {
+            type: HotelType,
+            args: {
+                name: { type: GraphQLString },
+                address: { type: GraphQLString }
+            },
+            resolve: async (source, args) => {
+                const { name, address } = args as { name: string; address: string };
+
+                if (!name && !address) {
+                    return null;
+                }
+
+                return await dbHotel.findOne({ name: name ? name : /.*/, address: address ? address : /.*/ });
+            },
+        },
         Users: {
             type: new GraphQLList(new GraphQLNonNull(UserType)),
             resolve: async () => {
                 return await dbUser.find();
             },
         },
-        // Do we want queries for single entities like this in the app? This finds a user by his email, and returns null if no user was found with the given email
         User: {
             type: UserType,
             args: {
@@ -27,9 +42,14 @@ const QueryType = new GraphQLObjectType({
             },
             resolve: async (source, args) => {
                 const { email } = args as { email: string };
-                return await dbUser.findOne({ "email": email });
+
+                if (!email) {
+                    return null;
+                }
+
+                return await dbUser.findOne({ email: email ? email : /.*/ });
             },
-        }
+        },
     },
 });
 
