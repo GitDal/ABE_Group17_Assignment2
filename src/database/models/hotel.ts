@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 const hotelModelName = "Hotel";
 
-export interface IRoom{
+export interface IRoom {
     number: number;
     size: number;
     available: boolean;

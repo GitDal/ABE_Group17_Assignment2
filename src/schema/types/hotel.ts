@@ -1,27 +1,28 @@
 import { GraphQLBoolean, GraphQLID, GraphQLInt, GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLSchema, GraphQLString } from "graphql";
+import { IHotel, IRoom } from "../../database/models/hotel";
 
 export const RoomType = new GraphQLObjectType({
     name: 'Room',
     fields: {
-        number: { 
+        number: {
             type: GraphQLInt,
-            resolve: (currentRoom, args) => currentRoom.number
+            resolve: (currentRoom: IRoom) => currentRoom.number
         },
-        size: { 
+        size: {
             type: GraphQLInt,
-            resolve: (currentRoom, args) => currentRoom.size
+            resolve: (currentRoom: IRoom) => currentRoom.size
         },
-        available: { 
+        available: {
             type: GraphQLBoolean,
-            resolve: (currentRoom, args) => currentRoom.available
+            resolve: (currentRoom: IRoom) => currentRoom.available
         },
         beds: {
             type: GraphQLInt,
-            resolve: (currentRoom, args) => currentRoom.beds
+            resolve: (currentRoom: IRoom) => currentRoom.beds
         },
         balcony: {
             type: GraphQLBoolean,
-            resolve: (currentRoom, args) => currentRoom.balcony
+            resolve: (currentRoom: IRoom) => currentRoom.balcony
         }
     }
 });
@@ -29,21 +30,21 @@ export const RoomType = new GraphQLObjectType({
 export const HotelType = new GraphQLObjectType({
     name: 'Hotel',
     fields: {
-        name: { 
+        name: {
             type: new GraphQLNonNull(GraphQLString),
-            resolve: (currentHotel, args) => currentHotel.name
+            resolve: (currentHotel: IHotel) => currentHotel.name
         },
         address: {
             type: GraphQLString,
-            resolve: (currentHotel, args) => currentHotel.address
+            resolve: (currentHotel: IHotel) => currentHotel.address
         },
-        rooms: { 
+        rooms: {
             type: new GraphQLList(RoomType),
-            resolve: (currentHotel, args) => currentHotel.rooms
+            resolve: (currentHotel: IHotel) => currentHotel.rooms
         },
         hotelManagerId: {
             type: GraphQLID,
-            resolve: (currentHotel, args) => currentHotel.hotelManagerId
+            resolve: (currentHotel: IHotel) => currentHotel.hotelManagerId
         }
     }
 });

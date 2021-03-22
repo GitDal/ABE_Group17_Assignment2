@@ -5,16 +5,16 @@ import {
     GraphQLInt,
     GraphQLList,
     GraphQLNonNull,
-  } from 'graphql';
+} from 'graphql';
 
-  import {HotelType} from './types/hotel'
-  import dbHotel from "../database/models/hotel";
+import { HotelType } from './types/hotel'
+import dbHotel from "../database/models/hotel";
 
-  const QueryType = new GraphQLObjectType({
+const QueryType = new GraphQLObjectType({
     name: "Query",
     fields: {
         Hotels: {
-            type:  new GraphQLList(new GraphQLNonNull(HotelType)) ,
+            type: new GraphQLList(new GraphQLNonNull(HotelType)),
             resolve: async (source, args, { mongoApi }) => {
                 return await dbHotel.find(); //kan ikke bruge api? --> kald direkte
             },
