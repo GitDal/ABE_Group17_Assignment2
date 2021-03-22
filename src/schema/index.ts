@@ -33,9 +33,25 @@ const QueryType = new GraphQLObjectType({
     },
 });
 
+const MutationType = new GraphQLObjectType({
+    name: "Mutation",
+    fields:{
+        Hotel: {
+            type: HotelType,
+            args: {
+                name: {type: GraphQLString},
+                address: {type: GraphQLString},
+                hotelManagerId: {type: GraphQLString}
+            }
+            
+        }
+    }
+})
+
+
 export const rootSchema = new GraphQLSchema({
     query: QueryType,
-    //TODO add mutaionType
+    mutation: MutationType
 });
 
 ///MUTATIONS:
