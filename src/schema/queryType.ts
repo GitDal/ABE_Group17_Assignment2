@@ -1,5 +1,5 @@
-import { GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLList, GraphQLNonNull, } from 'graphql';
-import { HotelType, RoomType } from './types/hotel'
+import { GraphQLObjectType, GraphQLString, GraphQLList, GraphQLNonNull, } from 'graphql';
+import { HotelType } from './types/hotel'
 import { UserType } from './types/user';
 import dbHotel from "../database/models/hotel";
 import dbUser from "../database/models/user";

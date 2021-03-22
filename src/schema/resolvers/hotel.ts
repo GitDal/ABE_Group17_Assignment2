@@ -7,6 +7,9 @@ export async function createHotel(hotel: IHotel) {
 
 export async function createRoom(hotelName: string, room: IRoom) {
 
+    room.available = true;
+    room.reservedByUserId = undefined;
+
     const hotel = await dbHotel.findOne({ name: hotelName });
 
     if (!hotel) { throw Error("Hotel not found!") }
@@ -18,16 +21,16 @@ export async function createRoom(hotelName: string, room: IRoom) {
 }
 
 export async function reserveRoom(hotelName: string, roomNumber: number, userEmail: string): Promise<IRoomReservationPayload> {
-    
+
     const hotel = await dbHotel.findOne({ name: hotelName });
 
     let result = await dbHotel.updateOne(
-        {_id: hotel?._id, "rooms": { $elemMatch: { "number": roomNumber, "available": true}}},
-        {$set: {"rooms.$.available" : false, "rooms.$.reservedByUserId" : userEmail}});
+        { _id: hotel?._id, "rooms": { $elemMatch: { "number": roomNumber, "available": true } } },
+        { $set: { "rooms.$.available": false, "rooms.$.reservedByUserId": userEmail } });
 
-    if(result.nModified === 0){
-        return { status: `Room with roomNumber=${roomNumber} couldn't be reserved (maybe its already reserved)`}
+    if (result.nModified === 0) {
+        return { status: `Room with roomNumber=${roomNumber} couldn't be reserved (maybe its already reserved)` }
     } else {
-        return { status: `Reserved room with roomNumber ${roomNumber}!`, reservedBy: userEmail}
+        return { status: `Reserved room with roomNumber ${roomNumber}!`, reservedBy: userEmail }
     }
 }

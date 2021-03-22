@@ -9,7 +9,7 @@ export interface IRoom {
     available: boolean;
     beds: number;
     balcony: boolean;
-    reservedByUserId: string; //user.Email
+    reservedByUserId?: string; //user.Email
 }
 
 export interface IHotel {

@@ -1,13 +1,14 @@
 import mongoose from "mongoose";
 
-const url = 'mongodb://localhost:27017/ABE';
+const db = process.env.DB as string;
+const port = process.env.DB_PORT as string;
+const dbName = process.env.DB_NAME as string;
 
-// For heroku deployment:
-// const url = process.env.DB_CONNECTION_STRING as string;
+const mongoUrl = `mongodb://${db}:${port}/${dbName}`;
 
 async function connect() {
     try {
-        await mongoose.connect(url, {
+        await mongoose.connect(mongoUrl, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useCreateIndex: true,
@@ -19,7 +20,7 @@ async function connect() {
 }
 
 mongoose.connection.on('connected', () => {
-    console.log(`Mongoose connected to ${url}`);
+    console.log(`Mongoose connected to ${mongoUrl}`);
 });
 
 mongoose.connection.on('error', err => {

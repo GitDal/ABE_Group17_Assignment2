@@ -1,0 +1,26 @@
+version: '3'
+
+volumes:
+  mongodb_data_container:
+
+services:
+  db:
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data_container:/data/db
+
+  graphql-backend-service:
+    build: .
+    restart: always
+    ports:
+      - 3000:3000
+    environment:
+      DB: db
+      DB_PORT: 27017
+      DB_NAME: ABE_GraphQL_HotelManagement
+      JWT_SECRET: "!1superSecretJWTSecret1!"
+    depends_on:
+      - db

@@ -23,6 +23,10 @@ export const RoomType = new GraphQLObjectType({
         balcony: {
             type: GraphQLBoolean,
             resolve: (currentRoom: IRoom) => currentRoom.balcony
+        },
+        reservedByUserId: {
+            type: GraphQLString,
+            resolve: (currentRoom: IRoom) => currentRoom.reservedByUserId
         }
     }
 });
@@ -52,21 +56,19 @@ export const HotelType = new GraphQLObjectType({
 export const HotelInput = new GraphQLInputObjectType({
     name: "HotelInput",
     fields: () => ({
-        name: { type: new GraphQLNonNull(GraphQLString)},
-        hotelManagerId: { type: new GraphQLNonNull(GraphQLString)},
-        address: { type: new GraphQLNonNull(GraphQLString)}
+        name: { type: new GraphQLNonNull(GraphQLString) },
+        hotelManagerId: { type: new GraphQLNonNull(GraphQLString) },
+        address: { type: new GraphQLNonNull(GraphQLString) }
     }),
 });
 
 export const RoomInput = new GraphQLInputObjectType({
     name: "RoomInput",
     fields: () => ({
-        number: { type: new GraphQLNonNull(GraphQLInt)},
-        size: { type: new GraphQLNonNull(GraphQLInt)},
-        beds: { type: new GraphQLNonNull(GraphQLInt)},
-        balcony: { type: new GraphQLNonNull(GraphQLBoolean)},
-        available: { type: new GraphQLNonNull(GraphQLBoolean)},
-        reservedByUserId: {type: new GraphQLNonNull(GraphQLString)}
+        number: { type: new GraphQLNonNull(GraphQLInt) },
+        size: { type: new GraphQLNonNull(GraphQLInt) },
+        beds: { type: new GraphQLNonNull(GraphQLInt) },
+        balcony: { type: new GraphQLNonNull(GraphQLBoolean) }
     }),
 });
 

@@ -25,7 +25,7 @@ export async function login(user: IUserInput): Promise<IUserPayload> {
     let result = await dbUser.findOne({ email: user.email }); //handle null
     let userFromDb = result?.toObject() as IUser; //Possibly null
 
-    if(!userFromDb) {
+    if (!userFromDb) {
         return { status: "Incorrect email or password" }
     }
 
@@ -46,7 +46,7 @@ export async function giveClaims(userEmail: string, newClaims: Array<string>) {
 
     let doc = await dbUser.findOne({ email: userEmail });
     const user = doc as IUserDoc;
-    newClaims.forEach(claim => !user.claims?.includes(claim) ? user.claims?.push(claim) : null );
+    newClaims.forEach(claim => !user.claims?.includes(claim) ? user.claims?.push(claim) : null);
     await user.save();
     return user;
 }
