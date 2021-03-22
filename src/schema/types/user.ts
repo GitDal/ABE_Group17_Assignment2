@@ -27,7 +27,20 @@ export interface IUserInput {
 export const UserInput = new GraphQLInputObjectType({
     name: "UserInput",
     fields: () => ({
-        email: { type: new GraphQLNonNull(GraphQLString)},
-        password: { type: new GraphQLNonNull(GraphQLString)},
+        email: { type: new GraphQLNonNull(GraphQLString) },
+        password: { type: new GraphQLNonNull(GraphQLString) },
+    }),
+});
+
+export interface IUserPayload {
+    status: string;
+    authToken?: string;
+}
+
+export const UserPayload = new GraphQLObjectType({
+    name: "UserPayload",
+    fields: () => ({
+        status: { type: new GraphQLNonNull(GraphQLString) },
+        authToken: { type: GraphQLString },
     }),
 });

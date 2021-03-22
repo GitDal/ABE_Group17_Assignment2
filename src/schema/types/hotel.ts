@@ -69,3 +69,16 @@ export const RoomInput = new GraphQLInputObjectType({
         reservedByUserId: {type: new GraphQLNonNull(GraphQLString)}
     }),
 });
+
+export interface IRoomReservationPayload {
+    status: string;
+    reservedBy?: string;
+}
+
+export const RoomReservationPayload = new GraphQLObjectType({
+    name: "RoomReservationPayload",
+    fields: () => ({
+        status: { type: new GraphQLNonNull(GraphQLString) },
+        reservedBy: { type: GraphQLString },
+    }),
+});
