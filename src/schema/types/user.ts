@@ -1,4 +1,4 @@
-import { GraphQLList, GraphQLObjectType, GraphQLString } from "graphql";
+import { GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLString } from "graphql";
 import { IUser } from "../../database/models/user";
 
 export const UserType = new GraphQLObjectType({
@@ -17,4 +17,13 @@ export const UserType = new GraphQLObjectType({
             resolve: (currentUser: IUser) => currentUser.claims
         },
     }
+});
+
+export const UserInput = new GraphQLObjectType({
+    name: "UserInput",
+    fields: () => ({
+        email: { type: new GraphQLNonNull(GraphQLString)},
+        password: { type: new GraphQLNonNull(GraphQLString)},
+        claims: { type: new GraphQLList(new GraphQLNonNull(GraphQLString))}
+    }),
 });
