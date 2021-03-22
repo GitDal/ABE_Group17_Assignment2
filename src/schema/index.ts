@@ -19,7 +19,6 @@ const QueryType = new GraphQLObjectType({
                 return await dbUser.find();
             },
         },
-        // Do we want queries for single entities like this in the app? This finds a user by his email, and returns null if no user was found with the given email
         User: {
             type: UserType,
             args: {
@@ -29,7 +28,7 @@ const QueryType = new GraphQLObjectType({
                 const { email } = args as { email: string };
                 return await dbUser.findOne({ "email": email });
             },
-        }
+        },
     },
 });
 
