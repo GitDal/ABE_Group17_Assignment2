@@ -1,8 +1,12 @@
+import bcrypt from "bcrypt";
+import claims from "../claims";
 import { GraphQLSchema, GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLList, GraphQLNonNull, } from 'graphql';
 import { HotelInput, HotelType, RoomInput, RoomType } from './types/hotel'
 import { UserType, UserInput } from './types/user';
 import dbHotel from "../database/models/hotel";
-import dbUser from "../database/models/user";
+import dbUser, { IUser } from "../database/models/user";
+
+const saltRounds = 10;
 
 const QueryType = new GraphQLObjectType({
     name: "Query",
@@ -62,7 +66,16 @@ const MutationType = new GraphQLObjectType({
                 input: {type: new GraphQLNonNull(UserInput)},
             },
             resolve: async (source, {input}) => {
-                dbUser.create(input);
+
+                const hashedPassword = await bcrypt.hash(input.password, saltRounds);
+
+                const hashedUserInfo: IUser = {
+                    email: input.email,
+                    password: hashedPassword,
+                    claims: [claims.USER]
+                };
+
+                return dbUser.create(hashedUserInfo);
             },
         },
         hotelCreate: {
