@@ -1,22 +1,33 @@
-import {
-    GraphQLSchema,
-    GraphQLObjectType,
-    GraphQLString,
-    GraphQLInt,
-    GraphQLList,
-    GraphQLNonNull,
-} from 'graphql';
-
+import { GraphQLSchema, GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLList, GraphQLNonNull, } from 'graphql';
 import { HotelType } from './types/hotel'
+import { UserType } from './types/user';
 import dbHotel from "../database/models/hotel";
+import dbUser from "../database/models/user";
 
 const QueryType = new GraphQLObjectType({
     name: "Query",
     fields: {
         Hotels: {
             type: new GraphQLList(new GraphQLNonNull(HotelType)),
-            resolve: async (source, args, { mongoApi }) => {
+            resolve: async () => {
                 return await dbHotel.find(); //kan ikke bruge api? --> kald direkte
+            },
+        },
+        Users: {
+            type: new GraphQLList(new GraphQLNonNull(UserType)),
+            resolve: async () => {
+                return await dbUser.find();
+            },
+        },
+        // Do we want queries for single entities like this in the app? This finds a user by his email, and returns null if no user was found with the given email
+        User: {
+            type: UserType,
+            args: {
+                email: { type: GraphQLString }
+            },
+            resolve: async (source, args) => {
+                const { email } = args as { email: string };
+                return await dbUser.findOne({ "email": email });
             },
         }
     },
