@@ -1,5 +1,5 @@
 import { GraphQLSchema, GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLList, GraphQLNonNull, } from 'graphql';
-import { HotelType } from './types/hotel'
+import { HotelInput, HotelType } from './types/hotel'
 import { UserType } from './types/user';
 import dbHotel from "../database/models/hotel";
 import dbUser from "../database/models/user";
@@ -56,12 +56,13 @@ const QueryType = new GraphQLObjectType({
 const MutationType = new GraphQLObjectType({
     name: "Mutation",
     fields:{
-        Hotel: {
+        hotelCreate: {
             type: HotelType,
             args: {
-                name: {type: GraphQLString},
-                address: {type: GraphQLString},
-                hotelManagerId: {type: GraphQLString}
+                input: {type: new GraphQLNonNull(HotelInput)},
+            },
+            resolve: async (source, {input}) => {
+                //dbHotel
             }
             
         }

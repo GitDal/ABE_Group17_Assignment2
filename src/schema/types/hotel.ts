@@ -1,4 +1,4 @@
-import { GraphQLBoolean, GraphQLID, GraphQLInt, GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLSchema, GraphQLString } from "graphql";
+import { GraphQLBoolean, GraphQLID, GraphQLInputObjectType, GraphQLInt, GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLSchema, GraphQLString } from "graphql";
 import { IHotel, IRoom } from "../../database/models/hotel";
 
 export const RoomType = new GraphQLObjectType({
@@ -47,4 +47,13 @@ export const HotelType = new GraphQLObjectType({
             resolve: (currentHotel: IHotel) => currentHotel.hotelManagerId
         }
     }
+});
+
+export const HotelInput = new GraphQLInputObjectType({
+    name: "HotelInput",
+    fields: () => ({
+        name: { type: new GraphQLNonNull(GraphQLString)},
+        hotelManagerId: { type: new GraphQLNonNull(GraphQLString)},
+        address: { type: new GraphQLNonNull(GraphQLString)}
+    }),
 });
