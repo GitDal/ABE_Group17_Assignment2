@@ -1,4 +1,4 @@
-import { GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLString } from "graphql";
+import { GraphQLInputObjectType, GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLString } from "graphql";
 import { IUser } from "../../database/models/user";
 
 export const UserType = new GraphQLObjectType({
@@ -19,11 +19,15 @@ export const UserType = new GraphQLObjectType({
     }
 });
 
-export const UserInput = new GraphQLObjectType({
+export interface IUserInput {
+    email: string;
+    password: string;
+}
+
+export const UserInput = new GraphQLInputObjectType({
     name: "UserInput",
     fields: () => ({
         email: { type: new GraphQLNonNull(GraphQLString)},
         password: { type: new GraphQLNonNull(GraphQLString)},
-        claims: { type: new GraphQLList(new GraphQLNonNull(GraphQLString))}
     }),
 });
