@@ -55,19 +55,18 @@ const QueryType = new GraphQLObjectType({
 
 const MutationType = new GraphQLObjectType({
     name: "Mutation",
-    fields:{
+    fields:() => ({
         hotelCreate: {
             type: HotelType,
             args: {
                 input: {type: new GraphQLNonNull(HotelInput)},
             },
             resolve: async (source, {input}) => {
-                //dbHotel
+                return dbHotel.create(input);
             }
-            
         }
-    }
-})
+    })
+});
 
 
 export const rootSchema = new GraphQLSchema({
