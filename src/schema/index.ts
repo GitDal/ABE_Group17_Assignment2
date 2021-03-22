@@ -72,23 +72,26 @@ const MutationType = new GraphQLObjectType({
                 input: {type: new GraphQLNonNull(RoomInput)}
             },
             resolve: async (source, {hotelName, input}) => {
-
-
                 const hotel = await dbHotel.findOne({name: hotelName});
 
-                if(!hotel){
-                    throw Error("Hotel not found!")
-                }
-                console.log(hotel);
+                if(!hotel) { throw Error("Hotel not found!") }
 
-                const realRoom = {}
-
-                const result = await dbHotel.updateOne(
+                await dbHotel.updateOne(
                     {_id: hotel?._id, 'rooms.number': {$ne: input.number}}, //roomNumber has to be unique in hotel (but not in all hotels)
                     {$push: {"rooms": input}}); 
                 return input;
             }
 
+        },
+        reserveRoom: {
+            type: RoomType,
+            args: {
+                hotelName: {type: new GraphQLNonNull(GraphQLString)},
+                roomNumber: {type: new GraphQLNonNull(GraphQLInt)}
+            },
+            resolve: async (source, {hotelName, roomNumber}) => {
+                
+            }
         }
     })
 });
