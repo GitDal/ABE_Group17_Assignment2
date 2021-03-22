@@ -57,3 +57,15 @@ export const HotelInput = new GraphQLInputObjectType({
         address: { type: new GraphQLNonNull(GraphQLString)}
     }),
 });
+
+export const RoomInput = new GraphQLInputObjectType({
+    name: "RoomInput",
+    fields: () => ({
+        number: { type: new GraphQLNonNull(GraphQLInt)},
+        size: { type: new GraphQLNonNull(GraphQLInt)},
+        beds: { type: new GraphQLNonNull(GraphQLInt)},
+        balcony: { type: new GraphQLNonNull(GraphQLBoolean)},
+        available: { type: new GraphQLNonNull(GraphQLBoolean)},
+        reservedByUserId: {type: new GraphQLNonNull(GraphQLString)}
+    }),
+});
